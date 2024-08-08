@@ -1,16 +1,16 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable, OnDragEndResponder } from 'react-beautiful-dnd';
 import { Card } from '@/components/Card/Card';
 
 // fake data generator
-const getItems = (count, offset = 0) =>
+const getItems = (count: number, offset = 0) =>
   Array.from({ length: count }, (v, k) => k).map(k => ({
     id: `item-${k + offset}-${new Date().getTime()}`,
     content: `item ${k + offset}`
   }));
 
-const reorder = (list, startIndex, endIndex) => {
+const reorder = (list: {id: string, content: string}[], startIndex: number, endIndex: number) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
@@ -34,12 +34,6 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 
   return result;
 };
-const grid = 8;
-const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? "lightblue" : "lightgrey",
-  padding: grid,
-  width: 250
-});
 
 export default function DnDTable() {
   const [state, setState] = useState([getItems(10), getItems(5, 10)]);
@@ -52,7 +46,7 @@ export default function DnDTable() {
       setIsBrowser(true);
     }
   }, []);
-  function onDragEnd(result) {
+  const onDragEnd: OnDragEndResponder = (result) => {
     const { source, destination } = result;
 
     // dropped outside the list
