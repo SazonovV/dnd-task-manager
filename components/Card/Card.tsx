@@ -3,12 +3,12 @@ import { Text } from '@alfalab/core-components/text';
 import { Status } from '@alfalab/core-components/status';
 import { DraggableProvided } from 'react-beautiful-dnd';
 
-interface Props extends DraggableProvided {
+interface Props {
   text: string;
   id: string;
   author: string;
   critical?: boolean;
-  ref: any;
+  provided: DraggableProvided;
 }
 
 export const Card: FC<Props> = ({ text, id, author, provided }) => {
